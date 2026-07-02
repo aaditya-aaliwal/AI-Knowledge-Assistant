@@ -1,0 +1,3 @@
+APP_NAME = "AI Knowledge Assistant"
+APP_VERSION = "1.0.0"
+DEBUG = True
