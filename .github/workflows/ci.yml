@@ -10,7 +10,6 @@ on:
       - main
 
 jobs:
-
   build:
 
     runs-on: ubuntu-latest
@@ -30,7 +29,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Verify Project
+      - name: Verify Python
         run: |
           python --version
           pip --version
+
+      - name: Build Docker Image
+        run: |
+          docker build -t ai-knowledge-assistant .
