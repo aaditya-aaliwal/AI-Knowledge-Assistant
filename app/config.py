@@ -22,6 +22,13 @@ class Settings(BaseSettings):
     CHROMA_COLLECTION_NAME: str 
 
 
+    # PostgreSQL Configuration
+    DB_HOST: str
+    DB_PORT: int
+    DB_NAME: str
+    DB_USER: str
+    DB_PASSWORD: str
+
 
     # Redis Configuration
     REDIS_HOST: str
