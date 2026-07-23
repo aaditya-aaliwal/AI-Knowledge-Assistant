@@ -5,23 +5,21 @@ from fastapi import Depends
 from app.dependencies import get_app_name
 
 from app.utils import print_app_info
-from app.logger import log_info
-from app.config import APP_VERSION
+from app.cache.redis_client import redis_client
+from app.logger import logger
 
 
-from app.routers import users,chats,documents
+from app.routers import users,chats,documents,auth,ai,ai_chat,search,rag
 
 from app.database.database import Base, engine
-from app.models import User,Chat,Document
+
+from app.config import settings
+
 
 Base.metadata.create_all(bind=engine)
 
-
-
-
-
 app = FastAPI()
-log_info("Application Started")
+logger.info("Application Started")
 
 print_app_info()
 
@@ -32,6 +30,30 @@ app.include_router(chats.router)
 
 app.include_router(documents.router)
 
+app.include_router(auth.router)
+
+app.include_router(ai.router)
+
+app.include_router(ai_chat.router)
+
+app.include_router(search.router)
+
+app.include_router(rag.router)
+
+
+
+
+
+
+@app.on_event("startup")
+def startup_event():
+    try:
+        redis_client.ping()
+        logger.info("Redis connected successfully.")
+    except Exception as e:
+        logger.error(f"Redis connection failed: {e}")
+
+
 
 @app.get("/dependency")
 def dependency_demo(
@@ -40,7 +62,6 @@ def dependency_demo(
     return {
         "app_name": app_name
     }
-
 
 @app.get("/")
 def home():
@@ -65,20 +86,7 @@ def version():
     return JSONResponse(
         status_code=200,
         content={
-            "version": APP_VERSION
+            "version": settings.APP_VERSION
         }
     )
 
-
-
-@app.get("/search")
-def search_user(name: str):
-    return {
-        "search": name
-    }
-
-@app.get("/products")
-def get_products(limit: int = 10):
-    return {
-        "limit": limit
-    }

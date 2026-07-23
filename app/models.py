@@ -13,6 +13,7 @@ class User(Base):
     password = Column(String(255), nullable=False)
     created_at = Column(DateTime, default=func.now())
     chats = relationship("Chat", back_populates="user")
+    role = Column(String, default="user")
 
 class Chat(Base):
     __tablename__ = "chats"
