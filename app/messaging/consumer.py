@@ -107,3 +107,7 @@ class RabbitMQConsumer:
 
 
 consumer = RabbitMQConsumer()
+
+
+if __name__ == "__main__":
+    consumer.start()
