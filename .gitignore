@@ -1,12 +1,19 @@
-# Virtual Environment
-.venv/
+# pnpm
+.pnpm-store/
 
 # Python
 **/__pycache__/
 *.pyc
+.venv/
+.pytest_cache/
 
-# Environment Variables
-.env
+# Frontend
+frontend/node_modules/
+frontend/dist/
 
-# VS Code
-.vscode/
+# Environment
+**/.env
+
+# Vector DB
+backend/chroma_db/
+backend/vector_db/
